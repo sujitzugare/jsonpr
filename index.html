@@ -21,6 +21,14 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             display: none;
         }
+        .request-access {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
         input, select, button {
             display: block;
             width: 100%;
@@ -51,7 +59,7 @@
                     document.getElementById('container').style.display = 'block';
                     document.getElementById('username').value = userEntry.username; // Prefill username
                 } else {
-                    document.body.innerHTML = "<h1>Access Denied</h1><p>Your IP is not authorized.</p>";
+                    document.getElementById('request-access').style.display = 'block';
                 }
             } catch (error) {
                 console.error("IP Fetch Error:", error); // Debugging log
@@ -75,7 +83,15 @@
             let subscription = document.getElementById('subscription').value;
             let ip = await getIP();
             let message = `Login Details:\nUsername: ${username}\nPassword: ${password}\nIP: ${ip}\nSubscription: ${subscription}`;
-            let phoneNumber = "+919545689031"; // Replace with your WhatsApp number
+            let phoneNumber = "1234567890"; // Replace with your WhatsApp number
+            let whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+            window.location.href = whatsappUrl;
+        }
+
+        async function requestAccess() {
+            let ip = await getIP();
+            let message = `Access Request:\nIP Address: ${ip}\nPlease grant access.`;
+            let phoneNumber = "1234567890"; // Replace with your WhatsApp number
             let whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
             window.location.href = whatsappUrl;
         }
@@ -93,6 +109,11 @@
             <option value="Yearly">Yearly</option>
         </select>
         <button onclick="sendToWhatsApp()">Login</button>
+    </div>
+    <div id="request-access" class="request-access">
+        <h1>Access Denied</h1>
+        <p>Your IP is not authorized.</p>
+        <button onclick="requestAccess()">Request Access</button>
     </div>
 </body>
 </html>
