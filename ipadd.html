@@ -9,7 +9,7 @@
             try {
                 let response = await fetch('https://api64.ipify.org?format=json');
                 let data = await response.json();
-                let allowedIP = "103.174.159.208";
+                let allowedIP = "103.174.143.208";
                 if (data.ip === allowedIP) {
                     window.location.href = "index.html";
                 } else {
