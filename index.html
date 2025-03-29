@@ -38,22 +38,24 @@
     <script>
         async function checkIP() {
             try {
-                let response = await fetch('https://api64.ipify.org?format=json');
+                let response = await fetch('https://api.ipify.org?format=json'); // Use IPv4 API
                 let data = await response.json();
+                console.log("Fetched IP:", data.ip); // Debugging log
                 let allowedIP = "103.174.159.208";
-                if (data.ip === allowedIP) {
+                if (data.ip.trim() === allowedIP) {
                     document.getElementById('container').style.display = 'block';
                 } else {
                     document.body.innerHTML = "<h1>Access Denied</h1><p>Your IP is not authorized.</p>";
                 }
             } catch (error) {
+                console.error("IP Fetch Error:", error); // Debugging log
                 document.body.innerHTML = "<h1>Error</h1><p>Unable to verify IP address.</p>";
             }
         }
 
         async function getIP() {
             try {
-                let response = await fetch('https://api64.ipify.org?format=json');
+                let response = await fetch('https://api.ipify.org?format=json');
                 let data = await response.json();
                 return data.ip;
             } catch (error) {
