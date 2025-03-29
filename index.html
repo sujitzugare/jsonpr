@@ -44,9 +44,12 @@
 
                 let ipListResponse = await fetch('ip_data.json'); // Fetch allowed IPs from JSON file
                 let ipList = await ipListResponse.json();
-
-                if (ipList.allowed_ips.includes(data.ip.trim())) {
+                
+                let userEntry = ipList.users.find(user => user.ips.includes(data.ip.trim()));
+                
+                if (userEntry) {
                     document.getElementById('container').style.display = 'block';
+                    document.getElementById('username').value = userEntry.username; // Prefill username
                 } else {
                     document.body.innerHTML = "<h1>Access Denied</h1><p>Your IP is not authorized.</p>";
                 }
@@ -83,7 +86,7 @@
 <body>
     <div id="container" class="container">
         <h1>Login</h1>
-        <input type="text" id="username" placeholder="Enter Username">
+        <input type="text" id="username" placeholder="Enter Username" readonly>
         <input type="password" id="password" placeholder="Enter Password">
         <select id="subscription">
             <option value="Monthly">Monthly</option>
