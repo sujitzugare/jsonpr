@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Verification</title>
+    <script>
+        async function checkIP() {
+            try {
+                let response = await fetch('https://api64.ipify.org?format=json');
+                let data = await response.json();
+                let allowedIP = "103.174.159.208";
+                if (data.ip === allowedIP) {
+                    window.location.href = "index.html";
+                } else {
+                    document.body.innerHTML = "<h1>Access Denied</h1><p>Your IP is not authorized.</p>";
+                }
+            } catch (error) {
+                document.body.innerHTML = "<h1>Error</h1><p>Unable to verify IP address.</p>";
+            }
+        }
+        checkIP();
+    </script>
+</head>
+<body>
+    <h1>Verifying IP Address...</h1>
+</body>
+</html>
