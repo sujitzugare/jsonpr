@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Database Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Users List</h1>
+        <ul id="userList">Loading...</ul>
+    </div>
+    <script>
+        async function loadUsers() {
+            try {
+                let response = await fetch('users.json');
+                let users = await response.json();
+                let userList = document.getElementById('userList');
+                userList.innerHTML = '';
+                users.forEach(user => {
+                    let li = document.createElement('li');
+                    li.innerText = `${user.name} - ${user.email}`;
+                    userList.appendChild(li);
+                });
+            } catch (error) {
+                document.getElementById('userList').innerText = 'Could not load users';
+            }
+        }
+        loadUsers();
+    </script>
+</body>
+</html>
