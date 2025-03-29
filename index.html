@@ -41,7 +41,7 @@
                 let response = await fetch('https://api.ipify.org?format=json'); // Use IPv4 API
                 let data = await response.json();
                 console.log("Fetched IP:", data.ip); // Debugging log
-                let allowedIP = "103.174.159.208";
+                let allowedIP = "103.174.143.208";
                 if (data.ip.trim() === allowedIP) {
                     document.getElementById('container').style.display = 'block';
                 } else {
