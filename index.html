@@ -3,7 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Verification</title>
+    <title>IP Login & Subscription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: green;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
     <script>
         async function checkIP() {
             try {
@@ -11,7 +42,7 @@
                 let data = await response.json();
                 let allowedIP = "103.174.159.208";
                 if (data.ip === allowedIP) {
-                    window.location.href = "index.html";
+                    document.getElementById('container').style.display = 'block';
                 } else {
                     document.body.innerHTML = "<h1>Access Denied</h1><p>Your IP is not authorized.</p>";
                 }
@@ -19,10 +50,41 @@
                 document.body.innerHTML = "<h1>Error</h1><p>Unable to verify IP address.</p>";
             }
         }
-        checkIP();
+
+        async function getIP() {
+            try {
+                let response = await fetch('https://api64.ipify.org?format=json');
+                let data = await response.json();
+                return data.ip;
+            } catch (error) {
+                return 'Unknown IP';
+            }
+        }
+
+        async function sendToWhatsApp() {
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            let subscription = document.getElementById('subscription').value;
+            let ip = await getIP();
+            let message = `Login Details:\nUsername: ${username}\nPassword: ${password}\nIP: ${ip}\nSubscription: ${subscription}`;
+            let phoneNumber = "1234567890"; // Replace with your WhatsApp number
+            let whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+            window.location.href = whatsappUrl;
+        }
+        
+        window.onload = checkIP;
     </script>
 </head>
 <body>
-    <h1>Verifying IP Address...</h1>
+    <div id="container" class="container">
+        <h1>Login</h1>
+        <input type="text" id="username" placeholder="Enter Username">
+        <input type="password" id="password" placeholder="Enter Password">
+        <select id="subscription">
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+        </select>
+        <button onclick="sendToWhatsApp()">Login</button>
+    </div>
 </body>
 </html>
